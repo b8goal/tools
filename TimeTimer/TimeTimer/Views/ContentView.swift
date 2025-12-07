@@ -94,11 +94,37 @@ struct ContentView: View {
             
             Spacer()
             
-            // Timer display
-            Text(viewModel.formattedTimeRemaining)
-                .font(.system(size: 48, weight: .bold, design: .rounded))
-                .foregroundColor(timerColor)
-                .monospacedDigit()
+            // Circular timer gauge (Google Time Timer style)
+            ZStack {
+                // Background circle
+                Circle()
+                    .stroke(Color.secondary.opacity(0.2), lineWidth: 12)
+                    .frame(width: 120, height: 120)
+                
+                // Progress circle (decreasing)
+                Circle()
+                    .trim(from: 0, to: viewModel.progress)
+                    .stroke(
+                        timerColor,
+                        style: StrokeStyle(lineWidth: 12, lineCap: .round)
+                    )
+                    .frame(width: 120, height: 120)
+                    .rotationEffect(.degrees(-90))
+                    .animation(.linear(duration: 0.5), value: viewModel.progress)
+                
+                // Timer text in center
+                VStack(spacing: 4) {
+                    Text(viewModel.formattedTimeRemaining)
+                        .font(.system(size: 20, weight: .bold, design: .rounded))
+                        .foregroundColor(timerColor)
+                        .monospacedDigit()
+                    
+                    Text(viewModel.timerState == .running ? "Running" : 
+                         viewModel.timerState == .paused ? "Paused" : "Ready")
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                }
+            }
             
             // Control buttons
             HStack(spacing: 12) {
