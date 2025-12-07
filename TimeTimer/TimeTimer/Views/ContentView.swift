@@ -104,7 +104,7 @@ struct ContentView: View {
                 
                 // Progress circle (decreasing)
                 Circle()
-                    .trim(from: 0, to: viewModel.progress)
+                    .trim(from: 0, to: 1 - viewModel.progress)
                     .stroke(
                         timerColor,
                         style: StrokeStyle(lineWidth: 10, lineCap: .round)
