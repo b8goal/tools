@@ -83,7 +83,10 @@ class WindowManager: ObservableObject {
     func updateWindowLevel() {
         DispatchQueue.main.async {
             if let window = NSApp.windows.first {
-                window.level = self.isAlwaysOnTop ? .floating : .normal
+                // Use popUpMenu level to stay above all other windows
+                window.level = self.isAlwaysOnTop ? .popUpMenu : .normal
+                // Ensure window can receive key events even when floating
+                window.collectionBehavior = self.isAlwaysOnTop ? [.canJoinAllSpaces, .fullScreenAuxiliary] : []
             }
         }
     }
