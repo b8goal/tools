@@ -1,0 +1,24 @@
+# Downloader 설정 파일
+token.pickle
+credentials.json
+
+# 다운로드 폴더
+downloads/
+
+# Python 캐시
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db

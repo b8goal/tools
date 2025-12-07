@@ -1,0 +1,9 @@
+# 필수 라이브러리
+requests
+tqdm
+yt-dlp
+
+# Google Drive API
+google-auth
+google-auth-oauthlib
+google-api-python-client
