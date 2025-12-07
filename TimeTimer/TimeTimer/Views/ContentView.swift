@@ -16,51 +16,126 @@ struct ContentView: View {
     
     var body: some View {
         GeometryReader { geometry in
+            let isCompact = geometry.size.width < 400 || geometry.size.height < 400
+            
             VStack(spacing: 0) {
-                // Header
-                headerView
-                    .padding()
+                // Header - hide in compact mode
+                if !isCompact {
+                    headerView
+                        .padding()
+                    
+                    Divider()
+                }
                 
-                Divider()
-                
-                ScrollView {
-                    VStack(spacing: geometry.size.height * 0.03) {
-                        // Timer mode selector with Start button
-                        timerModeAndControlView
-                            .padding(.top)
-                        
-                        
-                        // Timer display
-                        if viewModel.timerMode == .basic {
-                            timerDisplayView
-                                .cardStyle()
-                                .padding(.horizontal)
-                                .frame(height: geometry.size.height * 0.35)
-                        } else {
-                            timerDisplayView
-                                .cardStyle()
-                                .padding(.horizontal)
+                if isCompact {
+                    // Compact mode - only show timer
+                    compactTimerView
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else {
+                    // Full mode
+                    ScrollView {
+                        VStack(spacing: geometry.size.height * 0.03) {
+                            // Timer mode selector with Start button
+                            timerModeAndControlView
+                                .padding(.top)
+                            
+                            
+                            // Timer display
+                            if viewModel.timerMode == .basic {
+                                timerDisplayView
+                                    .cardStyle()
+                                    .padding(.horizontal)
+                                    .frame(height: geometry.size.height * 0.35)
+                            } else {
+                                timerDisplayView
+                                    .cardStyle()
+                                    .padding(.horizontal)
+                            }
+                            
+                            // Time input (only when idle)
+                            if viewModel.timerState == .idle {
+                                timeInputView
+                                    .cardStyle()
+                                    .padding(.horizontal)
+                            }
+                            
+                            // Presets (conditional)
+                            if showQuickPresets {
+                                presetsView
+                                    .cardStyle()
+                                    .padding(.horizontal)
+                            }
                         }
-                        
-                        // Time input (only when idle)
-                        if viewModel.timerState == .idle {
-                            timeInputView
-                                .cardStyle()
-                                .padding(.horizontal)
-                        }
-                        
-                        // Presets (conditional)
-                        if showQuickPresets {
-                            presetsView
-                                .cardStyle()
-                                .padding(.horizontal)
-                        }
+                        .padding(.bottom)
                     }
-                    .padding(.bottom)
                 }
             }
-            .frame(minWidth: 500, minHeight: 600)
+            .frame(minWidth: 300, minHeight: 200)
             .background(ColorTheme.appBackground)
+        }
+    }
+    
+    // MARK: - Compact Timer View
+    private var compactTimerView: some View {
+        VStack(spacing: 16) {
+            // Timer display
+            Text(viewModel.formattedTimeRemaining)
+                .font(.system(size: 48, weight: .bold, design: .rounded))
+                .foregroundColor(timerColor)
+                .monospacedDigit()
+            
+            // Control buttons
+            HStack(spacing: 12) {
+                if viewModel.timerState == .idle {
+                    Button(action: {
+                        viewModel.startTimer()
+                    }) {
+                        Image(systemName: "play.fill")
+                            .font(.title2)
+                    }
+                    .buttonStyle(.plain)
+                    .disabled(viewModel.selectedHours == 0 && viewModel.selectedMinutes == 0 && viewModel.selectedSeconds == 0)
+                } else if viewModel.timerState == .running {
+                    Button(action: {
+                        viewModel.pauseTimer()
+                    }) {
+                        Image(systemName: "pause.fill")
+                            .font(.title2)
+                    }
+                    .buttonStyle(.plain)
+                } else if viewModel.timerState == .paused {
+                    Button(action: {
+                        viewModel.startTimer()
+                    }) {
+                        Image(systemName: "play.fill")
+                            .font(.title2)
+                    }
+                    .buttonStyle(.plain)
+                }
+                
+                if viewModel.timerState != .idle {
+                    Button(action: {
+                        viewModel.resetTimer()
+                    }) {
+                        Image(systemName: "arrow.counterclockwise")
+                            .font(.title2)
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+            .foregroundColor(.blue)
+        }
+        .padding()
+    }
+    
+    private var timerColor: Color {
+        switch viewModel.timerState {
+        case .running:
+            return ColorTheme.timerRunning
+        case .paused:
+            return ColorTheme.timerPaused
+        case .idle:
+            return ColorTheme.timerIdle
         }
     }
     

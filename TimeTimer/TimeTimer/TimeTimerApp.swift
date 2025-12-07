@@ -22,7 +22,7 @@ struct TimeTimerApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView(windowManager: windowManager)
-                .frame(minWidth: 500, minHeight: 600)
+                .frame(minWidth: 300, minHeight: 200)
         }
         .windowStyle(.hiddenTitleBar)
         .windowResizability(.contentSize)
