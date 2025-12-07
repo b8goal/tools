@@ -98,24 +98,24 @@ struct ContentView: View {
             ZStack {
                 // Background circle
                 Circle()
-                    .stroke(Color.secondary.opacity(0.2), lineWidth: 12)
-                    .frame(width: 120, height: 120)
+                    .stroke(Color.secondary.opacity(0.2), lineWidth: 10)
+                    .frame(width: 100, height: 100)
                 
                 // Progress circle (decreasing)
                 Circle()
                     .trim(from: 0, to: viewModel.progress)
                     .stroke(
                         timerColor,
-                        style: StrokeStyle(lineWidth: 12, lineCap: .round)
+                        style: StrokeStyle(lineWidth: 10, lineCap: .round)
                     )
-                    .frame(width: 120, height: 120)
+                    .frame(width: 100, height: 100)
                     .rotationEffect(.degrees(-90))
                     .animation(.linear(duration: 0.5), value: viewModel.progress)
                 
                 // Timer text in center
-                VStack(spacing: 4) {
+                VStack(spacing: 2) {
                     Text(viewModel.formattedTimeRemaining)
-                        .font(.system(size: 20, weight: .bold, design: .rounded))
+                        .font(.system(size: 18, weight: .bold, design: .rounded))
                         .foregroundColor(timerColor)
                         .monospacedDigit()
                     
@@ -125,6 +125,7 @@ struct ContentView: View {
                         .foregroundColor(.secondary)
                 }
             }
+            .padding(.vertical, 8)
             
             // Control buttons
             HStack(spacing: 12) {
