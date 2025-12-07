@@ -93,6 +93,7 @@ struct ContentView: View {
             }
             
             Spacer()
+                .frame(maxHeight: 20)
             
             // Circular timer gauge (Google Time Timer style)
             ZStack {
