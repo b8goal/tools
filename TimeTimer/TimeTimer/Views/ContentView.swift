@@ -15,47 +15,46 @@ struct ContentView: View {
     @State private var showQuickPresets = true
     
     var body: some View {
-        VStack(spacing: 0) {
-            // Header
-            headerView
-                .padding()
-            
-            Divider()
-            
-            ScrollView {
-                VStack(spacing: 30) {
-                    // Timer mode selector
-                    timerModeSelector
-                        .padding(.top)
-                    
-                    // Timer display
-                    timerDisplayView
-                        .cardStyle()
-                        .padding(.horizontal)
-                    
-                    // Time input (only when idle)
-                    if viewModel.timerState == .idle {
-                        timeInputView
+        GeometryReader { geometry in
+            VStack(spacing: 0) {
+                // Header
+                headerView
+                    .padding()
+                
+                Divider()
+                
+                ScrollView {
+                    VStack(spacing: geometry.size.height * 0.03) {
+                        // Timer mode selector with Start button
+                        timerModeAndControlView
+                            .padding(.top)
+                        
+                        // Timer display
+                        timerDisplayView
                             .cardStyle()
                             .padding(.horizontal)
+                            .frame(height: geometry.size.height * 0.35)
+                        
+                        // Time input (only when idle)
+                        if viewModel.timerState == .idle {
+                            timeInputView
+                                .cardStyle()
+                                .padding(.horizontal)
+                        }
+                        
+                        // Presets (conditional)
+                        if showQuickPresets {
+                            presetsView
+                                .cardStyle()
+                                .padding(.horizontal)
+                        }
                     }
-                    
-                    // Presets (conditional)
-                    if showQuickPresets {
-                        presetsView
-                            .cardStyle()
-                            .padding(.horizontal)
-                    }
-                    
-                    // Control buttons
-                    controlButtonsView
-                        .padding()
+                    .padding(.bottom)
                 }
-                .padding(.bottom)
             }
+            .frame(minWidth: 600, minHeight: 700)
+            .background(ColorTheme.appBackground)
         }
-        .frame(minWidth: 600, minHeight: 700)
-        .background(ColorTheme.appBackground)
     }
     
     // MARK: - Header
@@ -155,16 +154,63 @@ struct ContentView: View {
         }
     }
     
-    // MARK: - Timer Mode Selector
-    private var timerModeSelector: some View {
-        Picker("Timer Mode", selection: $viewModel.timerMode) {
-            ForEach(TimerMode.allCases, id: \.self) { mode in
-                Text(mode.displayName).tag(mode)
+    
+    // MARK: - Timer Mode and Control View
+    private var timerModeAndControlView: some View {
+        HStack(spacing: 16) {
+            // Timer mode selector
+            Picker("Timer Mode", selection: $viewModel.timerMode) {
+                ForEach(TimerMode.allCases, id: \.self) { mode in
+                    Text(mode.displayName).tag(mode)
+                }
+            }
+            .pickerStyle(.segmented)
+            .frame(maxWidth: 300)
+            .disabled(viewModel.timerState != .idle)
+            
+            Spacer()
+            
+            // Control buttons
+            HStack(spacing: 12) {
+                if viewModel.timerState == .idle {
+                    Button(action: {
+                        viewModel.startTimer()
+                    }) {
+                        Label("Start", systemImage: "play.fill")
+                            .frame(minWidth: 100)
+                    }
+                    .buttonStyle(PremiumButtonStyle())
+                    .disabled(viewModel.selectedHours == 0 && viewModel.selectedMinutes == 0 && viewModel.selectedSeconds == 0)
+                } else if viewModel.timerState == .running {
+                    Button(action: {
+                        viewModel.pauseTimer()
+                    }) {
+                        Label("Pause", systemImage: "pause.fill")
+                            .frame(minWidth: 100)
+                    }
+                    .buttonStyle(PremiumButtonStyle())
+                } else if viewModel.timerState == .paused {
+                    Button(action: {
+                        viewModel.startTimer()
+                    }) {
+                        Label("Resume", systemImage: "play.fill")
+                            .frame(minWidth: 100)
+                    }
+                    .buttonStyle(PremiumButtonStyle())
+                }
+                
+                if viewModel.timerState != .idle {
+                    Button(action: {
+                        viewModel.resetTimer()
+                    }) {
+                        Label("Reset", systemImage: "arrow.counterclockwise")
+                            .frame(minWidth: 100)
+                    }
+                    .buttonStyle(PremiumButtonStyle(isDestructive: true))
+                }
             }
         }
-        .pickerStyle(.segmented)
-        .frame(maxWidth: 300)
-        .disabled(viewModel.timerState != .idle)
+        .padding(.horizontal)
     }
     
     // MARK: - Timer Display
@@ -180,42 +226,49 @@ struct ContentView: View {
     
     // MARK: - Time Input
     private var timeInputView: some View {
-        VStack(spacing: 12) {
-            Text("Set Time")
-                .font(.headline)
-            
-            HStack(spacing: 20) {
-                timePickerComponent(
-                    title: "Hours",
-                    selection: $viewModel.selectedHours,
-                    range: 0..<24
-                )
+        GeometryReader { geometry in
+            VStack(spacing: 12) {
+                Text("Set Time")
+                    .font(.headline)
                 
-                Text(":")
-                    .font(.title)
-                    .foregroundColor(.secondary)
-                
-                timePickerComponent(
-                    title: "Minutes",
-                    selection: $viewModel.selectedMinutes,
-                    range: 0..<60
-                )
-                
-                Text(":")
-                    .font(.title)
-                    .foregroundColor(.secondary)
-                
-                timePickerComponent(
-                    title: "Seconds",
-                    selection: $viewModel.selectedSeconds,
-                    range: 0..<60
-                )
+                HStack(spacing: geometry.size.width * 0.03) {
+                    timePickerComponent(
+                        title: "Hours",
+                        selection: $viewModel.selectedHours,
+                        range: 0..<24,
+                        width: geometry.size.width * 0.25
+                    )
+                    
+                    Text(":")
+                        .font(.title)
+                        .foregroundColor(.secondary)
+                    
+                    timePickerComponent(
+                        title: "Minutes",
+                        selection: $viewModel.selectedMinutes,
+                        range: 0..<60,
+                        width: geometry.size.width * 0.25
+                    )
+                    
+                    Text(":")
+                        .font(.title)
+                        .foregroundColor(.secondary)
+                    
+                    timePickerComponent(
+                        title: "Seconds",
+                        selection: $viewModel.selectedSeconds,
+                        range: 0..<60,
+                        width: geometry.size.width * 0.25
+                    )
+                }
             }
+            .padding()
         }
-        .padding()
+        .frame(height: 120)
     }
     
-    private func timePickerComponent(title: String, selection: Binding<Int>, range: Range<Int>) -> some View {
+    
+    private func timePickerComponent(title: String, selection: Binding<Int>, range: Range<Int>, width: CGFloat) -> some View {
         VStack(spacing: 4) {
             Text(title)
                 .font(.caption)
@@ -235,7 +288,7 @@ struct ContentView: View {
                 Text(String(format: "%02d", selection.wrappedValue))
                     .font(.title2)
                     .fontWeight(.medium)
-                    .frame(width: 50)
+                    .frame(width: min(width * 0.4, 60))
                     .padding(.vertical, 4)
                     .background(Color.secondary.opacity(0.1))
                     .cornerRadius(6)
@@ -251,6 +304,7 @@ struct ContentView: View {
                 .buttonStyle(.plain)
             }
         }
+        .frame(width: width)
     }
     
     // MARK: - Presets
@@ -313,48 +367,6 @@ struct ContentView: View {
         .disabled(viewModel.timerState != .idle)
     }
     
-    // MARK: - Control Buttons
-    private var controlButtonsView: some View {
-        HStack(spacing: 16) {
-            if viewModel.timerState == .idle {
-                Button(action: {
-                    viewModel.startTimer()
-                }) {
-                    Label("Start", systemImage: "play.fill")
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(PremiumButtonStyle())
-                .disabled(viewModel.selectedHours == 0 && viewModel.selectedMinutes == 0 && viewModel.selectedSeconds == 0)
-            } else if viewModel.timerState == .running {
-                Button(action: {
-                    viewModel.pauseTimer()
-                }) {
-                    Label("Pause", systemImage: "pause.fill")
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(PremiumButtonStyle())
-            } else if viewModel.timerState == .paused {
-                Button(action: {
-                    viewModel.startTimer()
-                }) {
-                    Label("Resume", systemImage: "play.fill")
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(PremiumButtonStyle())
-            }
-            
-            if viewModel.timerState != .idle {
-                Button(action: {
-                    viewModel.resetTimer()
-                }) {
-                    Label("Reset", systemImage: "arrow.counterclockwise")
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(PremiumButtonStyle(isDestructive: true))
-            }
-        }
-        .frame(maxWidth: 400)
-    }
 }
 
 #Preview {
