@@ -29,11 +29,18 @@ struct ContentView: View {
                         timerModeAndControlView
                             .padding(.top)
                         
+                        
                         // Timer display
-                        timerDisplayView
-                            .cardStyle()
-                            .padding(.horizontal)
-                            .frame(height: geometry.size.height * 0.35)
+                        if viewModel.timerMode == .basic {
+                            timerDisplayView
+                                .cardStyle()
+                                .padding(.horizontal)
+                                .frame(height: geometry.size.height * 0.35)
+                        } else {
+                            timerDisplayView
+                                .cardStyle()
+                                .padding(.horizontal)
+                        }
                         
                         // Time input (only when idle)
                         if viewModel.timerState == .idle {
@@ -52,7 +59,7 @@ struct ContentView: View {
                     .padding(.bottom)
                 }
             }
-            .frame(minWidth: 600, minHeight: 700)
+            .frame(minWidth: 500, minHeight: 600)
             .background(ColorTheme.appBackground)
         }
     }
