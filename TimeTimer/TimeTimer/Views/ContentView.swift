@@ -78,6 +78,22 @@ struct ContentView: View {
     // MARK: - Compact Timer View
     private var compactTimerView: some View {
         VStack(spacing: 16) {
+            // Pin button at top right
+            HStack {
+                Spacer()
+                Button(action: {
+                    windowManager.isAlwaysOnTop.toggle()
+                }) {
+                    Image(systemName: windowManager.isAlwaysOnTop ? "pin.fill" : "pin")
+                        .font(.system(size: 16))
+                        .foregroundColor(windowManager.isAlwaysOnTop ? .blue : .secondary)
+                }
+                .buttonStyle(.plain)
+                .padding(8)
+            }
+            
+            Spacer()
+            
             // Timer display
             Text(viewModel.formattedTimeRemaining)
                 .font(.system(size: 48, weight: .bold, design: .rounded))
@@ -124,6 +140,8 @@ struct ContentView: View {
                 }
             }
             .foregroundColor(.blue)
+            
+            Spacer()
         }
         .padding()
     }
