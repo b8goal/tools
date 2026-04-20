@@ -7,7 +7,13 @@ from typing import List
 
 import requests as _std_requests
 from bs4 import BeautifulSoup
-from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
+from tenacity import (
+    RetryCallState,
+    retry,
+    retry_if_exception_type,
+    stop_after_attempt,
+    wait_exponential,
+)
 from fake_useragent import UserAgent
 
 try:
@@ -16,10 +22,57 @@ try:
 except ImportError:
     CURL_CFFI_AVAILABLE = False
 
+REQUEST_EXCEPTION_TYPES = (_std_requests.RequestException,)
+if CURL_CFFI_AVAILABLE:
+    REQUEST_EXCEPTION_TYPES = (
+        _std_requests.RequestException,
+        curl_requests.RequestException,
+    )
+
 from config import Config, ScraperConfig
 from models.post import ScrapedPost
 
 logger = logging.getLogger(__name__)
+
+
+def _retry_before_sleep_log(retry_state: RetryCallState):
+    """Log retry metadata before sleeping between attempts."""
+    scraper = retry_state.args[0] if retry_state.args else None
+    url = retry_state.args[1] if len(retry_state.args) > 1 else "unknown-url"
+    scraper_name = (
+        scraper.scraper_config.name
+        if scraper and hasattr(scraper, "scraper_config")
+        else "unknown-scraper"
+    )
+    error = retry_state.outcome.exception() if retry_state.outcome else None
+    logger.warning(
+        "[%s] fetch_page retry before sleep (attempt=%s, url=%s, error=%s)",
+        scraper_name,
+        retry_state.attempt_number,
+        url,
+        error,
+    )
+
+
+def _retry_after_log(retry_state: RetryCallState):
+    """Log retry metadata immediately after each call attempt."""
+    scraper = retry_state.args[0] if retry_state.args else None
+    url = retry_state.args[1] if len(retry_state.args) > 1 else "unknown-url"
+    scraper_name = (
+        scraper.scraper_config.name
+        if scraper and hasattr(scraper, "scraper_config")
+        else "unknown-scraper"
+    )
+    outcome_failed = bool(retry_state.outcome and retry_state.outcome.failed)
+    error = retry_state.outcome.exception() if outcome_failed else None
+    logger.debug(
+        "[%s] fetch_page retry after attempt (attempt=%s, url=%s, failed=%s, error=%s)",
+        scraper_name,
+        retry_state.attempt_number,
+        url,
+        outcome_failed,
+        error,
+    )
 
 
 class BaseScraper(ABC):
@@ -51,6 +104,8 @@ class BaseScraper(ABC):
         retry=retry_if_exception_type((Exception,)),
         stop=stop_after_attempt(3),
         wait=wait_exponential(multiplier=2, min=3, max=30),
+        before_sleep=_retry_before_sleep_log,
+        after=_retry_after_log,
         reraise=True,
     )
     def fetch_page(self, url: str, encoding: str = None) -> BeautifulSoup:
@@ -64,7 +119,7 @@ class BaseScraper(ABC):
             BeautifulSoup parsed HTML.
 
         Raises:
-            requests.RequestException: On HTTP errors.
+            RequestException: On HTTP errors.
         """
         import random
         # 약간의 추가 Jitter(1~3초)
@@ -78,8 +133,8 @@ class BaseScraper(ABC):
                 response.encoding = encoding
 
             return BeautifulSoup(response.text, "lxml")
-        except requests.RequestException as e:
-            logger.error(f"[{self.scraper_config.name}] Failed to fetch {url}: {e}")
+        except REQUEST_EXCEPTION_TYPES as e:
+            logger.error("[%s] Failed to fetch url=%s: %s", self.scraper_config.name, url, e)
             raise
 
     def rate_limit(self):
@@ -129,8 +184,8 @@ class BaseScraper(ABC):
 
         # Filter by minimum upvotes OR minimum comments
         filtered = [
-            p for p in posts 
-            if p.upvotes >= self.scraper_config.min_upvotes 
+            p for p in posts
+            if p.upvotes >= self.scraper_config.min_upvotes
             or p.comment_count >= self.scraper_config.min_comments
         ]
 
