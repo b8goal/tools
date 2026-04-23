@@ -33,8 +33,8 @@ except ImportError:
 SCOPES = ['https://www.googleapis.com/auth/drive.readonly']
 
 def extract_content_id_from_url(url):
-    """URL에서 content_id 추출 (LMS 페이지 URL)"""
-    match = re.search(r'/em/([a-f0-9]+)$', url)
+    """URL에서 content_id 추출 (LMS 페이지 URL, 쿼리스트링 있어도 처리)"""
+    match = re.search(r'/em/([a-f0-9]+)', url)
     if match:
         return match.group(1)
     return None

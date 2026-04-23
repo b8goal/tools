@@ -1,0 +1,118 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>에펨코리아 보안 시스템</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style type="text/css">
+    .main_t {height: 100%; width: 100%; border: 0;}
+    .main_t td {text-align: center;}
+    .main_t td.info {font-size: 25px; height: 100%; text-align: center; vertical-align: top; padding-top: 2em;}
+    .main_t td.info b {font-size: 28px;}
+    .sign { color: #ccc; margin-top: 5em;}
+    .sign a { color: #ccc; }
+
+    @media only screen and (max-width: 768px) {
+        .main_t td.info {font-size: 20px;}
+        .main_t td.info b {font-size: 25px;}
+    }
+</style>
+<script>
+    function getCookie(name) {
+        let matches = document.cookie.match(new RegExp(
+            "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+        ));
+        return matches ? decodeURIComponent(matches[1]) : undefined;
+    }
+
+    let nightMode = getCookie('night_mode');
+    if (nightMode === 'Y') {
+        document.documentElement.style.colorScheme = 'dark';
+    }
+</script>
+</head>
+<body>
+<div style="text-align:center;">
+    <table class="main_t">
+        <tr>
+            <td class="info">
+                <b>에펨코리아 보안 시스템<br>IP: 163.152.3.163<br></b>
+                잠시 기다리면 사이트에 자동으로 접속됩니다.<br>자동으로 접속되지 않을 경우 아래 링크를 클릭해서 다시 시도할 수 있습니다.<br>
+                <a href='javascript:location.reload()'>수동 접속 갱신</a><br>
+				오류가 발생하면 화면 정보와 함께 help@fmkorea.com 로 문의 바랍니다.
+
+                <p></p>
+                <div id="js_info">
+                    <p></p>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="sign">
+                   <br />
+
+        <noscript>자바크스크리트를 켜시길 바랍니다.</noscript>
+            </td>
+        </tr>
+    </table>
+    <script type="text/javascript">
+        var needReload = false;
+        document.getElementById('js_info').style.display = 'none';
+        var date = new Date();
+
+        days = '7';
+        date.setTime(date.getTime() + (days * 24*60*60*1000));
+
+        var _cookie = 'lite_year' + "=" + escape('7ee9fa5e1995864e555c0208c8c218b9');
+
+        document.cookie = _cookie + "; expires = " + date.toGMTString() + "; path=/";;
+        document.cookie = 'g_'+_cookie + "; domain=.fmkorea.com; expires = " + date.toGMTString() + "; path=/";;
+
+        setTimeout(function(){
+            if(needReload) {
+                window.redirectCheck();
+            }
+            else {
+                needReload = true;
+            }
+        }, 0);
+        window.redirectCheck = function() {
+            const url = new URL(window.location.href);
+            url.searchParams.set('ddosCheckOnly', '1');
+            window.location.replace(url);
+        }
+    </script>
+    <script type="module">
+        import init, { fm5 } from "/mc/mc.php";
+        async function run() {
+            // Wasm 모듈 초기화
+            await init();
+            fm5('7ee9fa5e1995864e555c0208c8c218b9', 'c3954891c2fd61b70c5705fca187838e');
+
+            var serverTimestamp = 1776589619;
+            var browserTimestamp = Math.floor(Date.now() / 1000);
+            var timeDiff = Math.abs(browserTimestamp - serverTimestamp);
+            var autoreload = true;
+            if (timeDiff > 3600) {
+                fetch('/debug.php/timegap/' + timeDiff, {
+                    method: 'GET',
+                    cache: 'no-cache',
+                    credentials: 'same-origin'
+                }).finally(function() {
+                    alert('브라우저 시간과 서버 시간이 1시간 이상 차이납니다. 정확한 시스템 시간 설정을 확인해 주세요.');
+                    autoreload = false;
+                });
+            }
+            if(needReload) {
+                if(autoreload)  window.redirectCheck();
+            }
+            else {
+                needReload = true;
+            }
+        }
+        run();
+    </script>
+</div>
+</body>
+</html>
+
+

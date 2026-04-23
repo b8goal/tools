@@ -1,0 +1,353 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project TimeTimer.xcodeproj -scheme TimeTimer -configuration Debug clean build
+
+2025-12-04 19:54:42.922 xcodebuild[5318:9451490] [MT] IDERunDestination: Supported platforms for the buildables in the current scheme is empty.
+--- xcodebuild: WARNING: Using the first of multiple matching destinations:
+{ platform:macOS, arch:arm64, id:00006030-000C00840A82001C, name:My Mac }
+{ platform:macOS, arch:x86_64, id:00006030-000C00840A82001C, name:My Mac }
+{ platform:macOS, name:Any Mac }
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+** CLEAN SUCCEEDED **
+
+--- xcodebuild: WARNING: Using the first of multiple matching destinations:
+{ platform:macOS, arch:arm64, id:00006030-000C00840A82001C, name:My Mac }
+{ platform:macOS, arch:x86_64, id:00006030-000C00840A82001C, name:My Mac }
+{ platform:macOS, name:Any Mac }
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (1 target)
+    Target 'TimeTimer' in project 'TimeTimer' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --version --output-format xml1
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+Build description signature: 0a1ee5254155fcf3982973512c873096
+Build description path: /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/XCBuildData/0a1ee5254155fcf3982973512c873096.xcbuilddata
+ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk /Users/hyeonseong/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/macosx26.1-25B74-3ae1261907bdadc328169391a47051a6.sdkstatcache
+    cd /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer.xcodeproj
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk -o /Users/hyeonseong/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/macosx26.1-25B74-3ae1261907bdadc328169391a47051a6.sdkstatcache
+
+CreateBuildDirectory /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products
+    cd /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer.xcodeproj
+    builtin-create-build-directory /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products
+
+CreateBuildDirectory /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex
+    cd /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer.xcodeproj
+    builtin-create-build-directory /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex
+
+CreateBuildDirectory /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+    cd /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer.xcodeproj
+    builtin-create-build-directory /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+
+CreateBuildDirectory /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/ExplicitPrecompiledModules
+    cd /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer.xcodeproj
+    builtin-create-build-directory /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/ExplicitPrecompiledModules
+
+WriteAuxiliaryFile /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer-02d5709e8ed21773818475f005d98fd0-VFS/all-product-headers.yaml
+    cd /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer.xcodeproj
+    write-file /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer-02d5709e8ed21773818475f005d98fd0-VFS/all-product-headers.yaml
+
+CreateBuildDirectory /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/EagerLinkingTBDs/Debug
+    cd /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer.xcodeproj
+    builtin-create-build-directory /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/EagerLinkingTBDs/Debug
+
+CreateBuildDirectory /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug
+    cd /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer.xcodeproj
+    builtin-create-build-directory /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug
+
+WriteAuxiliaryFile /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer-project-headers.hmap (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    write-file /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer-project-headers.hmap
+
+WriteAuxiliaryFile /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer.hmap (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    write-file /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer.hmap
+
+WriteAuxiliaryFile /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer-all-target-headers.hmap (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    write-file /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer-all-target-headers.hmap
+
+WriteAuxiliaryFile /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/empty-TimeTimer.plist (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    write-file /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/empty-TimeTimer.plist
+
+WriteAuxiliaryFile /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer-own-target-headers.hmap (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    write-file /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer-own-target-headers.hmap
+
+WriteAuxiliaryFile /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer-DebugDylibInstallName-normal-arm64.txt (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    write-file /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer-DebugDylibInstallName-normal-arm64.txt
+
+WriteAuxiliaryFile /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer-all-non-framework-target-headers.hmap (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    write-file /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer-all-non-framework-target-headers.hmap
+
+WriteAuxiliaryFile /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer-generated-files.hmap (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    write-file /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer-generated-files.hmap
+
+WriteAuxiliaryFile /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer-DebugDylibPath-normal-arm64.txt (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    write-file /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer-DebugDylibPath-normal-arm64.txt
+
+WriteAuxiliaryFile /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/TimeTimer_const_extract_protocols.json (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    write-file /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/TimeTimer_const_extract_protocols.json
+
+WriteAuxiliaryFile /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer.DependencyStaticMetadataFileList (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    write-file /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer.DependencyStaticMetadataFileList
+
+WriteAuxiliaryFile /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer.DependencyMetadataFileList (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    write-file /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer.DependencyMetadataFileList
+
+WriteAuxiliaryFile /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/TimeTimer.SwiftFileList (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    write-file /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/TimeTimer.SwiftFileList
+
+WriteAuxiliaryFile /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/TimeTimer.LinkFileList (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    write-file /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/TimeTimer.LinkFileList
+
+WriteAuxiliaryFile /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/TimeTimer.SwiftConstValuesFileList (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    write-file /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/TimeTimer.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/TimeTimer-OutputFileMap.json (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    write-file /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/TimeTimer-OutputFileMap.json
+
+WriteAuxiliaryFile /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/DerivedSources/Entitlements.plist (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    write-file /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/DerivedSources/Entitlements.plist
+
+MkDir /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug/TimeTimer.app/Contents/Resources (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    /bin/mkdir -p /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug/TimeTimer.app/Contents/Resources
+
+MkDir /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug/TimeTimer.app/Contents/MacOS (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    /bin/mkdir -p /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug/TimeTimer.app/Contents/MacOS
+
+MkDir /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug/TimeTimer.app/Contents (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    /bin/mkdir -p /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug/TimeTimer.app/Contents
+
+MkDir /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug/TimeTimer.app (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    /bin/mkdir -p /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug/TimeTimer.app
+
+ProcessProductPackaging "" /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer.app.xcent (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    
+    Entitlements:
+    
+    {
+    "com.apple.security.app-sandbox" = 1;
+    "com.apple.security.files.user-selected.read-only" = 1;
+    "com.apple.security.get-task-allow" = 1;
+}
+    
+    builtin-productPackagingUtility -entitlements -format xml -o /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer.app.xcent
+
+ProcessProductPackagingDER /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer.app.xcent /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer.app.xcent.der (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    /usr/bin/derq query -f xml -i /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer.app.xcent -o /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer.app.xcent.der --raw
+
+Ld /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug/TimeTimer.app/Contents/MacOS/__preview.dylib normal (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-macos15.6 -dynamiclib -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk -O0 -L/Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug -F/Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug -install_name @rpath/TimeTimer.debug.dylib -rdynamic -Xlinker -no_deduplicate -Xlinker -dependency_info -Xlinker /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/TimeTimer_dependency_info.dat -Xlinker -no_adhoc_codesign -o /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug/TimeTimer.app/Contents/MacOS/__preview.dylib
+
+MkDir /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/assetcatalog_output/unthinned (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    /bin/mkdir -p /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/assetcatalog_output/unthinned
+
+MkDir /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/assetcatalog_output/thinned (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    /bin/mkdir -p /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/assetcatalog_output/thinned
+
+GenerateAssetSymbols /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/Assets.xcassets (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/Assets.xcassets --compile /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug/TimeTimer.app/Contents/Resources --output-format human-readable-text --notices --warnings --export-dependency-info /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/assetcatalog_dependencies --output-partial-info-plist /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/assetcatalog_generated_info.plist --app-icon AppIcon --accent-color AccentColor --enable-on-demand-resources NO --development-region en --target-device mac --minimum-deployment-target 15.6 --platform macosx --bundle-identifier my.TimeTimer --generate-swift-asset-symbols /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/DerivedSources/GeneratedAssetSymbols.swift --generate-objc-asset-symbols /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/DerivedSources/GeneratedAssetSymbols.h --generate-asset-symbol-index /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/DerivedSources/GeneratedAssetSymbols-Index.plist
+/* com.apple.actool.compilation-results */
+/Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/DerivedSources/GeneratedAssetSymbols-Index.plist
+/Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/DerivedSources/GeneratedAssetSymbols.h
+/Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/DerivedSources/GeneratedAssetSymbols.swift
+
+
+CopyPlistFile /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug/TimeTimer.app/Contents/Resources/Info.plist /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/Info.plist (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    builtin-copyPlist --outdir /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug/TimeTimer.app/Contents/Resources -- /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/Info.plist
+
+CompileAssetCatalogVariant thinned /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug/TimeTimer.app/Contents/Resources /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/Assets.xcassets (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/Assets.xcassets --compile /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/assetcatalog_output/thinned --output-format human-readable-text --notices --warnings --export-dependency-info /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/assetcatalog_dependencies_thinned --output-partial-info-plist /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/assetcatalog_generated_info.plist_thinned --app-icon AppIcon --accent-color AccentColor --enable-on-demand-resources NO --development-region en --target-device mac --minimum-deployment-target 15.6 --platform macosx
+/* com.apple.actool.compilation-results */
+/Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/assetcatalog_generated_info.plist_thinned
+
+
+SwiftDriver TimeTimer normal arm64 com.apple.xcode.tools.swift.compiler (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name TimeTimer -Onone -enforce-exclusivity\=checked @/Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/TimeTimer.SwiftFileList -DDEBUG -default-isolation\=MainActor -enable-bare-slash-regex -enable-upcoming-feature DisableOutwardActorInference -enable-upcoming-feature InferSendableFromCaptures -enable-upcoming-feature GlobalActorIsolatedTypesUsability -enable-upcoming-feature MemberImportVisibility -enable-upcoming-feature InferIsolatedConformances -enable-upcoming-feature NonisolatedNonsendingByDefault -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk -target arm64-apple-macos15.6 -g -module-cache-path /Users/hyeonseong/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 5 -I /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug -F /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug -emit-localized-strings -emit-localized-strings-path /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64 -c -j11 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/hyeonseong/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/macosx26.1-25B74-3ae1261907bdadc328169391a47051a6.sdkstatcache -output-file-map /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/TimeTimer-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/hyeonseong/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/hyeonseong/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/TimeTimer.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/hyeonseong/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/TimeTimer_const_extract_protocols.json -Xcc -iquote -Xcc /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer-generated-files.hmap -Xcc -I/Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer-own-target-headers.hmap -Xcc -I/Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer-all-target-headers.hmap -Xcc -iquote -Xcc /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer-project-headers.hmap -Xcc -I/Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug/include -Xcc -I/Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/DerivedSources-normal/arm64 -Xcc -I/Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/DerivedSources/arm64 -Xcc -I/Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/TimeTimer-Swift.h -working-directory /Users/hyeonseong/workspace/tools/TimeTimer -experimental-emit-module-separately -disable-cmo
+
+SwiftCompile normal arm64 Compiling\ TimerViewModel.swift /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/ViewModels/TimerViewModel.swift (in target 'TimeTimer' from project 'TimeTimer')
+SwiftCompile normal arm64 /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/ViewModels/TimerViewModel.swift (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    
+
+SwiftCompile normal arm64 Compiling\ TimerPreset.swift /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/Models/TimerPreset.swift (in target 'TimeTimer' from project 'TimeTimer')
+
+SwiftCompile normal arm64 /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/Models/TimerPreset.swift (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    
+
+SwiftCompile normal arm64 Compiling\ TimerMode.swift /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/Models/TimerMode.swift (in target 'TimeTimer' from project 'TimeTimer')
+
+SwiftCompile normal arm64 /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/Models/TimerMode.swift (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    
+
+SwiftCompile normal arm64 Compiling\ BasicTimerView.swift /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/Views/BasicTimerView.swift (in target 'TimeTimer' from project 'TimeTimer')
+
+SwiftCompile normal arm64 /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/Views/BasicTimerView.swift (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    
+
+SwiftCompile normal arm64 Compiling\ VisualTimerView.swift /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/Views/VisualTimerView.swift (in target 'TimeTimer' from project 'TimeTimer')
+
+SwiftCompile normal arm64 /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/Views/VisualTimerView.swift (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    
+
+SwiftCompile normal arm64 Compiling\ ContentView.swift /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/Views/ContentView.swift (in target 'TimeTimer' from project 'TimeTimer')
+SwiftCompile normal arm64 /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/Views/ContentView.swift (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    
+/Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/Views/ContentView.swift:159:27: error: 'wheel' is unavailable in macOS
+            .pickerStyle(.wheel)
+                          ^~~~~
+SwiftUI.PickerStyle.wheel:2:19: note: 'wheel' has been explicitly marked unavailable here
+public static var wheel: WheelPickerStyle { get }}
+                  ^
+
+Failed frontend command:
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift-frontend -frontend -c /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/Models/TimerMode.swift /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/Models/TimerPreset.swift /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/Utilities/ColorTheme.swift /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/Utilities/NotificationManager.swift /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/ViewModels/TimerViewModel.swift /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/Views/BasicTimerView.swift -primary-file /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/Views/ContentView.swift /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/Views/PresetManagementView.swift /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/Views/VisualTimerView.swift /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/TimeTimerApp.swift /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/DerivedSources/GeneratedAssetSymbols.swift -emit-dependencies-path /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/ContentView.d -emit-const-values-path /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/ContentView.swiftconstvalues -emit-reference-dependencies-path /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/ContentView.swiftdeps -serialize-diagnostics-path /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/ContentView.dia -emit-localized-strings -emit-localized-strings-path /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64 -target arm64-apple-macos15.6 -module-can-import-version AppKit 2685.20.119 2685.20.119 -module-can-import-version DeveloperToolsSupport 23.0.4 23.0.4 -module-can-import-version SwiftUI 7.1.13.1 7.1.13 -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib/swift/host/plugins/libFoundationMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/bin/swift-plugin-server\#FoundationMacros -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib/swift/host/plugins/libObservationMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/bin/swift-plugin-server\#ObservationMacros -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib/swift/host/plugins/libPreviewsMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/bin/swift-plugin-server\#PreviewsMacros -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib/swift/host/plugins/libSwiftMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/bin/swift-plugin-server\#SwiftMacros -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib/swift/host/plugins/libSwiftUIMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/bin/swift-plugin-server\#SwiftUIMacros -disable-implicit-swift-modules -Xcc -fno-implicit-modules -Xcc -fno-implicit-module-maps -explicit-swift-module-map-file /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/TimeTimer-dependencies-1.json -Xllvm -aarch64-use-tbi -enable-objc-interop -stack-check -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk -I /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug -F /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug -no-color-diagnostics -Xcc -fno-color-diagnostics -enable-testing -g -debug-info-format\=dwarf -dwarf-version\=5 -module-cache-path /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -swift-version 5 -enforce-exclusivity\=checked -Onone -D DEBUG -serialize-debugging-options -const-gather-protocols-file /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/TimeTimer_const_extract_protocols.json -enable-upcoming-feature DisableOutwardActorInference -enable-upcoming-feature InferSendableFromCaptures -enable-upcoming-feature GlobalActorIsolatedTypesUsability -enable-upcoming-feature MemberImportVisibility -enable-upcoming-feature InferIsolatedConformances -enable-upcoming-feature NonisolatedNonsendingByDefault -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -default-isolation\=MainActor -empty-abi-descriptor -validate-clang-modules-once -clang-build-session-file /Users/hyeonseong/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -working-directory -Xcc /Users/hyeonseong/workspace/tools/TimeTimer -enable-anonymous-context-mangled-names -file-compilation-dir /Users/hyeonseong/workspace/tools/TimeTimer -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -Xcc -ivfsstatcache -Xcc /Users/hyeonseong/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/macosx26.1-25B74-3ae1261907bdadc328169391a47051a6.sdkstatcache -Xcc -I/Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/swift-overrides.hmap -Xcc -iquote -Xcc /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer-generated-files.hmap -Xcc -I/Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer-own-target-headers.hmap -Xcc -I/Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer-all-target-headers.hmap -Xcc -iquote -Xcc /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer-project-headers.hmap -Xcc -I/Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug/include -Xcc -I/Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/DerivedSources-normal/arm64 -Xcc -I/Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/DerivedSources/arm64 -Xcc -I/Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/DerivedSources -Xcc -DDEBUG\=1 -no-auto-bridging-header-chaining -module-name TimeTimer -frontend-parseable-output -disable-clang-spi -target-sdk-version 26.1 -target-sdk-name macosx26.1 -clang-target arm64-apple-macos26.1 -in-process-plugin-server-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/libSwiftInProcPluginServer.dylib -o /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/ContentView.o -index-unit-output-path /TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/ContentView.o -index-store-path /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Index.noindex/DataStore -index-system-modules
+SwiftEmitModule normal arm64 Emitting\ module\ for\ TimeTimer (in target 'TimeTimer' from project 'TimeTimer')
+
+EmitSwiftModule normal arm64 (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    
+
+SwiftCompile normal arm64 Compiling\ TimeTimerApp.swift /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/TimeTimerApp.swift (in target 'TimeTimer' from project 'TimeTimer')
+
+SwiftCompile normal arm64 /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/TimeTimerApp.swift (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    
+
+SwiftCompile normal arm64 Compiling\ GeneratedAssetSymbols.swift /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/DerivedSources/GeneratedAssetSymbols.swift (in target 'TimeTimer' from project 'TimeTimer')
+
+SwiftCompile normal arm64 /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/DerivedSources/GeneratedAssetSymbols.swift (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    
+
+SwiftCompile normal arm64 Compiling\ PresetManagementView.swift /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/Views/PresetManagementView.swift (in target 'TimeTimer' from project 'TimeTimer')
+SwiftCompile normal arm64 /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/Views/PresetManagementView.swift (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    
+
+SwiftCompile normal arm64 Compiling\ NotificationManager.swift /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/Utilities/NotificationManager.swift (in target 'TimeTimer' from project 'TimeTimer')
+
+SwiftCompile normal arm64 /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/Utilities/NotificationManager.swift (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    
+
+SwiftDriverJobDiscovery normal arm64 Compiling GeneratedAssetSymbols.swift (in target 'TimeTimer' from project 'TimeTimer')
+
+SwiftCompile normal arm64 Compiling\ ColorTheme.swift /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/Utilities/ColorTheme.swift (in target 'TimeTimer' from project 'TimeTimer')
+
+SwiftCompile normal arm64 /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/Utilities/ColorTheme.swift (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    
+
+SwiftDriverJobDiscovery normal arm64 Compiling TimerMode.swift (in target 'TimeTimer' from project 'TimeTimer')
+
+SwiftDriverJobDiscovery normal arm64 Compiling TimeTimerApp.swift (in target 'TimeTimer' from project 'TimeTimer')
+
+SwiftDriverJobDiscovery normal arm64 Compiling TimerPreset.swift (in target 'TimeTimer' from project 'TimeTimer')
+
+SwiftDriverJobDiscovery normal arm64 Compiling BasicTimerView.swift (in target 'TimeTimer' from project 'TimeTimer')
+
+SwiftDriverJobDiscovery normal arm64 Compiling VisualTimerView.swift (in target 'TimeTimer' from project 'TimeTimer')
+
+SwiftDriverJobDiscovery normal arm64 Emitting module for TimeTimer (in target 'TimeTimer' from project 'TimeTimer')
+
+SwiftDriver\ Compilation\ Requirements TimeTimer normal arm64 com.apple.xcode.tools.swift.compiler (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    builtin-Swift-Compilation-Requirements -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name TimeTimer -Onone -enforce-exclusivity\=checked @/Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/TimeTimer.SwiftFileList -DDEBUG -default-isolation\=MainActor -enable-bare-slash-regex -enable-upcoming-feature DisableOutwardActorInference -enable-upcoming-feature InferSendableFromCaptures -enable-upcoming-feature GlobalActorIsolatedTypesUsability -enable-upcoming-feature MemberImportVisibility -enable-upcoming-feature InferIsolatedConformances -enable-upcoming-feature NonisolatedNonsendingByDefault -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.1.sdk -target arm64-apple-macos15.6 -g -module-cache-path /Users/hyeonseong/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 5 -I /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug -F /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug -emit-localized-strings -emit-localized-strings-path /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64 -c -j11 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/hyeonseong/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/macosx26.1-25B74-3ae1261907bdadc328169391a47051a6.sdkstatcache -output-file-map /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/TimeTimer-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/hyeonseong/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/hyeonseong/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/TimeTimer.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/hyeonseong/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/TimeTimer_const_extract_protocols.json -Xcc -iquote -Xcc /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer-generated-files.hmap -Xcc -I/Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer-own-target-headers.hmap -Xcc -I/Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer-all-target-headers.hmap -Xcc -iquote -Xcc /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/TimeTimer-project-headers.hmap -Xcc -I/Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug/include -Xcc -I/Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/DerivedSources-normal/arm64 -Xcc -I/Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/DerivedSources/arm64 -Xcc -I/Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/TimeTimer-Swift.h -working-directory /Users/hyeonseong/workspace/tools/TimeTimer -experimental-emit-module-separately -disable-cmo
+
+SwiftMergeGeneratedHeaders /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/DerivedSources/TimeTimer-Swift.h /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/TimeTimer-Swift.h (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    builtin-swiftHeaderTool -arch arm64 /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/TimeTimer-Swift.h -o /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/DerivedSources/TimeTimer-Swift.h
+
+Copy /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug/TimeTimer.swiftmodule/arm64-apple-macos.swiftdoc /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/TimeTimer.swiftdoc (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/TimeTimer.swiftdoc /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug/TimeTimer.swiftmodule/arm64-apple-macos.swiftdoc
+
+Copy /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug/TimeTimer.swiftmodule/arm64-apple-macos.abi.json /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/TimeTimer.abi.json (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/TimeTimer.abi.json /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug/TimeTimer.swiftmodule/arm64-apple-macos.abi.json
+
+Copy /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug/TimeTimer.swiftmodule/arm64-apple-macos.swiftmodule /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/TimeTimer.swiftmodule (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/TimeTimer.swiftmodule /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug/TimeTimer.swiftmodule/arm64-apple-macos.swiftmodule
+
+Copy /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug/TimeTimer.swiftmodule/Project/arm64-apple-macos.swiftsourceinfo /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/TimeTimer.swiftsourceinfo (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks -rename /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/Objects-normal/arm64/TimeTimer.swiftsourceinfo /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug/TimeTimer.swiftmodule/Project/arm64-apple-macos.swiftsourceinfo
+
+LinkAssetCatalog /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/Assets.xcassets (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    builtin-linkAssetCatalog --thinned /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/assetcatalog_output/thinned --thinned-dependencies /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/assetcatalog_dependencies_thinned --thinned-info-plist-content /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/assetcatalog_generated_info.plist_thinned --unthinned /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/assetcatalog_output/unthinned --unthinned-dependencies /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/assetcatalog_dependencies_unthinned --unthinned-info-plist-content /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/assetcatalog_generated_info.plist_unthinned --output /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug/TimeTimer.app/Contents/Resources --plist-output /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/assetcatalog_generated_info.plist
+
+SwiftDriverJobDiscovery normal arm64 Compiling TimerViewModel.swift (in target 'TimeTimer' from project 'TimeTimer')
+
+ProcessInfoPlistFile /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug/TimeTimer.app/Contents/Info.plist /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/empty-TimeTimer.plist (in target 'TimeTimer' from project 'TimeTimer')
+    cd /Users/hyeonseong/workspace/tools/TimeTimer
+    builtin-infoPlistUtility /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/empty-TimeTimer.plist -producttype com.apple.product-type.application -genpkginfo /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug/TimeTimer.app/Contents/PkgInfo -expandbuildsettings -platform macosx -additionalcontentfile /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Intermediates.noindex/TimeTimer.build/Debug/TimeTimer.build/assetcatalog_generated_info.plist -o /Users/hyeonseong/Library/Developer/Xcode/DerivedData/TimeTimer-gvlvbsispyknpeacvgupcuvpcxos/Build/Products/Debug/TimeTimer.app/Contents/Info.plist
+
+SwiftDriverJobDiscovery normal arm64 Compiling NotificationManager.swift (in target 'TimeTimer' from project 'TimeTimer')
+
+** BUILD FAILED **
+
+
+The following build commands failed:
+	SwiftCompile normal arm64 /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/Views/ContentView.swift (in target 'TimeTimer' from project 'TimeTimer')
+	SwiftCompile normal arm64 Compiling\ ContentView.swift /Users/hyeonseong/workspace/tools/TimeTimer/TimeTimer/Views/ContentView.swift (in target 'TimeTimer' from project 'TimeTimer')
+	Building project TimeTimer with scheme TimeTimer and configuration Debug
+(3 failures)
