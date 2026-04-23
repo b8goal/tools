@@ -10,7 +10,8 @@
 | 고파스 경제 | https://www.koreapas.com/bbs/zboard.php?id=econo | ✅ v1 |
 | DC 미주갤 | https://gall.dcinside.com/mgallery/board/lists?id=stockus | ✅ v1 |
 | 뽐뿌 증권포럼 | https://www.ppomppu.co.kr/zboard/zboard.php?id=stock | ✅ v1 |
-| 클리앙 주식한당 | https://www.clien.net/service/board/somoim | 🔜 v2 |
+| 클리앙 주식한당 | https://www.clien.net/service/board/cm_stock | ✅ v1 |
+| 네이버 메르 블로그 | https://blog.naver.com/ranto28 | ✅ v1 |
 
 ## 설치
 
@@ -25,6 +26,10 @@ pip install -r requirements.txt
 # 환경변수 설정
 cp .env.example .env
 # .env 파일을 편집하여 Notion API 토큰 등을 입력
+
+# FM Korea 보안 페이지 대응용 (npx 필요)
+node --version
+npx --version
 ```
 
 ## Notion 설정
@@ -51,7 +56,7 @@ python main.py
 - 📝 글 요약
 - 💡 투자 인사이트
 - 🏷️ 투자 키워드 (종목명, 티커)
-- 💬 인기 댓글 요약 (Top 3)
+- 💬 댓글 요약
 - 📊 시그널 강도 (높음/중간/낮음)
 
 ## 라이선스

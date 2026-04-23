@@ -37,12 +37,19 @@ class DatabaseManager:
                     scraped_at TIMESTAMP,
                     
                     summary TEXT,
+                    comment_summary TEXT,
                     investment_insight TEXT,
                     tickers TEXT,
                     keywords TEXT,
                     sentiment TEXT,
                     signal_strength TEXT,
                     score REAL,
+                    recommendation_score REAL DEFAULT 0,
+                    specificity_score REAL DEFAULT 0,
+                    actionability_score REAL DEFAULT 0,
+                    noise_score REAL DEFAULT 0,
+                    recommendation_passed INTEGER DEFAULT 0,
+                    rejection_reasons TEXT DEFAULT '[]',
                     
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                 )
@@ -70,7 +77,28 @@ class DatabaseManager:
                 ON recommended_posts(last_recommended_at)
                 """
             )
+            self._ensure_analyzed_post_columns(cursor)
             conn.commit()
+
+    @staticmethod
+    def _ensure_analyzed_post_columns(cursor) -> None:
+        """Backfill columns when opening an existing database."""
+        cursor.execute("PRAGMA table_info(analyzed_posts)")
+        existing_columns = {row[1] for row in cursor.fetchall()}
+        required_columns = {
+            "recommendation_score": "REAL DEFAULT 0",
+            "specificity_score": "REAL DEFAULT 0",
+            "actionability_score": "REAL DEFAULT 0",
+            "noise_score": "REAL DEFAULT 0",
+            "recommendation_passed": "INTEGER DEFAULT 0",
+            "rejection_reasons": "TEXT DEFAULT '[]'",
+            "comment_summary": "TEXT DEFAULT ''",
+        }
+
+        for column_name, ddl in required_columns.items():
+            if column_name in existing_columns:
+                continue
+            cursor.execute(f"ALTER TABLE analyzed_posts ADD COLUMN {column_name} {ddl}")
 
     def get_recommended_urls(self, urls: List[str] | None = None) -> set[str]:
         """Return URLs that have already been uploaded to Notion."""
@@ -103,9 +131,11 @@ class DatabaseManager:
         query = """
             INSERT OR REPLACE INTO analyzed_posts (
                 post_url, source, source_name, title, content, upvotes, 
-                comment_count, views, scraped_at, summary, investment_insight, 
-                tickers, keywords, sentiment, signal_strength, score
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                comment_count, views, scraped_at, summary, comment_summary, investment_insight, 
+                tickers, keywords, sentiment, signal_strength, score,
+                recommendation_score, specificity_score, actionability_score,
+                noise_score, recommendation_passed, rejection_reasons
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """
         
         now = datetime.now()
@@ -122,12 +152,19 @@ class DatabaseManager:
                 ap.post.views,
                 ap.post.scraped_at or now,
                 ap.summary,
+                ap.comment_summary,
                 ap.investment_insight,
                 json.dumps(ap.tickers, ensure_ascii=False),
                 json.dumps(ap.keywords, ensure_ascii=False),
                 ap.sentiment.value,
                 ap.signal_strength.value,
-                ap.score
+                ap.score,
+                ap.recommendation_score,
+                ap.specificity_score,
+                ap.actionability_score,
+                ap.noise_score,
+                int(ap.recommendation_passed),
+                json.dumps(ap.rejection_reasons, ensure_ascii=False),
             ))
 
         try:

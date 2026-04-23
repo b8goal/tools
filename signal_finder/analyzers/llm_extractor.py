@@ -5,16 +5,101 @@ import logging
 from typing import List, Tuple
 from collections import Counter
 
-import google.generativeai as genai
-from google.generativeai.types import HarmCategory, HarmBlockThreshold
+from analyzers.text_summary import build_comment_summary, build_post_summary
+
+try:
+    import google.generativeai as genai
+    from google.generativeai.types import HarmCategory, HarmBlockThreshold
+except ImportError:  # pragma: no cover - optional dependency in local runs
+    genai = None
+    HarmCategory = None
+    HarmBlockThreshold = None
 
 from models.post import AnalyzedPost, ScrapedPost, Sentiment, SignalStrength
 
 logger = logging.getLogger(__name__)
 
 PROMPT_TEMPLATE = """
-다음은 주식 커뮤니티의 인기글 목록입니다. 각 글을 분석하여 투자 관점에서 유의미한 정보가 있는지 평가해주세요.
-단순 유머글, 정치글, 주식과 무관한 잡담이라면 is_investment_related를 false로 설정하세요.
+다음은 주식 커뮤니티의 인기글 목록입니다. 각 글을 분석하여 투자 관점에서 유의미한지, 그리고 실제 추천할 만한 품질인지 구분해주세요.
+단순 유머글, 밈글, 반응형 제목, 정치글, 욕설 위주 글, 종목/이벤트 근거가 없는 감정 배설은 추천 대상으로 보지 마세요.
+
+평가 기준:
+- is_investment_related: 주식, 경제, 기업, 투자 심리, 매매와 실제로 관련 있는지
+- is_recommendworthy: 실제로 데일리 추천 리스트에 넣을 만한 품질인지
+- specificity_score(0~5): 글이 얼마나 구체적인 정보/종목/이벤트를 담고 있는지
+- actionability_score(0~5): 독자가 투자 판단에 바로 활용할 수 있는지
+- noise_score(0~5): 밈, 잡담, 욕설, 반응형 제목 등 노이즈가 얼마나 큰지
+- evidence_type: 글의 근거 유형들. 가능한 값 예시 ["ticker", "macro", "earnings", "guidance", "valuation", "price_data", "supply_chain", "policy", "positioning"]
+
+few-shot 예시:
+[
+  {{
+    "title": "숏충이들 보면 로켓단같음",
+    "label": {{
+      "is_investment_related": true,
+      "is_recommendworthy": false,
+      "specificity_score": 1,
+      "actionability_score": 0,
+      "noise_score": 5,
+      "rejection_reasons": ["meme_title_low_specificity", "weak_keyword_only"]
+    }}
+  }},
+  {{
+    "title": "???: 아빠 씨발 장난해 지금???",
+    "label": {{
+      "is_investment_related": false,
+      "is_recommendworthy": false,
+      "specificity_score": 0,
+      "actionability_score": 0,
+      "noise_score": 5,
+      "rejection_reasons": ["meme_title_low_specificity", "short_text"]
+    }}
+  }},
+  {{
+    "title": "실시간 숏충이 표정...",
+    "label": {{
+      "is_investment_related": true,
+      "is_recommendworthy": false,
+      "specificity_score": 1,
+      "actionability_score": 0,
+      "noise_score": 4,
+      "rejection_reasons": ["meme_title_low_specificity", "short_text"]
+    }}
+  }},
+  {{
+    "title": "케빈 워시 연준 의장 후보자 발언 정리",
+    "label": {{
+      "is_investment_related": true,
+      "is_recommendworthy": true,
+      "specificity_score": 5,
+      "actionability_score": 4,
+      "noise_score": 1,
+      "rejection_reasons": []
+    }}
+  }},
+  {{
+    "title": "오늘자 씨티의 메모리 업체들의 LTA 예상",
+    "label": {{
+      "is_investment_related": true,
+      "is_recommendworthy": true,
+      "specificity_score": 5,
+      "actionability_score": 4,
+      "noise_score": 1,
+      "rejection_reasons": []
+    }}
+  }},
+  {{
+    "title": "나비타스 세미컨덕터 NVTS 관련 자료 모음",
+    "label": {{
+      "is_investment_related": true,
+      "is_recommendworthy": true,
+      "specificity_score": 5,
+      "actionability_score": 5,
+      "noise_score": 1,
+      "rejection_reasons": []
+    }}
+  }}
+]
 
 게시글 목록:
 {posts_text}
@@ -24,12 +109,19 @@ PROMPT_TEMPLATE = """
   {{
       "post_id": "글 번호(id)",
       "is_investment_related": true/false, // 주식, 경제, 기업, 투자 심리, 매매 등과 관련된 글인지 여부
+      "is_recommendworthy": true/false, // 데일리 추천에 넣을 만한 품질인지 여부
       "summary": "글의 핵심 내용을 1~2줄로 요약",
+      "comment_summary": "댓글 반응의 핵심을 1~2줄로 요약. 댓글이 없으면 빈 문자열",
       "insight": "이 글에서 얻을 수 있는 투자 인사이트 (없으면 '인사이트 없음')",
       "tickers": ["삼성전자", "TSLA", "AAPL"], // 언급된 구체적 주식 종목명 (없으면 빈 배열)
       "keywords": ["금리", "실적", "숏", "나스닥"], // 시장 주요 키워드 (없으면 빈 배열)
+      "evidence_type": ["ticker", "macro"], // 근거 유형 (없으면 빈 배열)
       "sentiment": "BULLISH", // BULLISH(상승/매수/호재), BEARISH(하락/매도/악재), NEUTRAL(중립/관망) 중 택1
-      "score": 85 // 0~100 사이의 점수. 유의미한 정보일수록 높게 (잡담이면 0)
+      "score": 85, // 0~100 사이의 기본 관련성 점수. 유의미한 정보일수록 높게 (잡담이면 0)
+      "specificity_score": 4, // 0~5
+      "actionability_score": 3, // 0~5
+      "noise_score": 1, // 0~5
+      "rejection_reasons": [] // 예: ["short_text", "weak_keyword_only", "meme_title_low_specificity", "no_ticker_or_strong_macro"]
   }}
 ]
 """
@@ -38,12 +130,17 @@ class GeminiExtractor:
     """Extract investment signals from scraped posts using Gemini LLM."""
 
     def __init__(self, api_key: str):
+        if genai is None:
+            raise RuntimeError(
+                "google-generativeai is not installed. Install it to use Gemini extraction."
+            )
         genai.configure(api_key=api_key)
         self.model = genai.GenerativeModel('gemini-2.5-flash')
 
     def analyze(self, post: ScrapedPost) -> AnalyzedPost:
         """Analyze a single post using Gemini API."""
-        return self.batch_analyze([post])[0] if self.batch_analyze([post]) else AnalyzedPost(post=post, score=0.0)
+        analyzed_posts = self.batch_analyze([post])
+        return analyzed_posts[0] if analyzed_posts else AnalyzedPost(post=post, score=0.0)
 
     def batch_analyze(self, posts: List[ScrapedPost]) -> List[AnalyzedPost]:
         """Analyze a list of posts in batches to avoid rate limits."""
@@ -52,6 +149,7 @@ class GeminiExtractor:
 
         results = []
         batch_size = 10
+        fallback_extractor = None
         
         import time
         
@@ -113,7 +211,7 @@ class GeminiExtractor:
                             sentiment = Sentiment.NEUTRAL
                             signal_type = "중립/관망"
 
-                        score = float(item.get("score", 0.0))
+                        score = self._clamp_score(item.get("score", 0.0), max_value=100.0)
                         score += original_post.upvotes * 1.0
                         score += original_post.comment_count * 0.2
                         
@@ -126,20 +224,54 @@ class GeminiExtractor:
 
                         tickers = item.get("tickers", [])
                         keywords = item.get("keywords", [])
+                        if isinstance(tickers, str):
+                            tickers = [tickers]
+                        elif not isinstance(tickers, list):
+                            tickers = []
+                        if isinstance(keywords, str):
+                            keywords = [keywords]
+                        elif not isinstance(keywords, list):
+                            keywords = []
+                        evidence_types = item.get("evidence_type", [])
+                        if isinstance(evidence_types, str):
+                            evidence_types = [evidence_types]
                         insight = item.get("insight", "인사이트 없음")
                         if insight == "인사이트 없음" and tickers:
                             insight = f"관련 종목: {', '.join(tickers)}"
 
+                        specificity_score = self._clamp_score(item.get("specificity_score", 0), max_value=5.0)
+                        actionability_score = self._clamp_score(item.get("actionability_score", 0), max_value=5.0)
+                        noise_score = self._clamp_score(item.get("noise_score", 0), max_value=5.0)
+                        rejection_reasons = item.get("rejection_reasons", [])
+                        if isinstance(rejection_reasons, str):
+                            rejection_reasons = [rejection_reasons]
+                        elif not isinstance(rejection_reasons, list):
+                            rejection_reasons = []
+
+                        summary = item.get("summary", "") or build_post_summary(
+                            original_post.title,
+                            original_post.content or "",
+                        )
+                        comment_summary = item.get("comment_summary", "") or build_comment_summary(
+                            (original_post.top_comments or [])[:3]
+                        )
+
                         analyzed = AnalyzedPost(
                             post=original_post,
-                            summary=item.get("summary", ""),
+                            summary=summary,
                             investment_insight=insight,
                             tickers=tickers,
                             keywords=keywords,
+                            evidence_types=evidence_types,
                             sentiment=sentiment,
                             signal_strength=strength,
-                            comment_summary="\n".join((original_post.top_comments or [])[:3]),
+                            comment_summary=comment_summary,
                             score=score,
+                            specificity_score=specificity_score,
+                            actionability_score=actionability_score,
+                            noise_score=noise_score,
+                            recommendation_passed=bool(item.get("is_recommendworthy", False)),
+                            rejection_reasons=rejection_reasons,
                         )
                         if analyzed.score > 0:
                             results.append(analyzed)
@@ -148,6 +280,16 @@ class GeminiExtractor:
                         
             except Exception as e:
                 logger.error(f"Gemini API batch error: {e}")
+                if fallback_extractor is None:
+                    from analyzers.signal_extractor import SignalExtractor
+
+                    fallback_extractor = SignalExtractor()
+
+                logger.warning(
+                    "Falling back to local rule-based analysis for %s posts in the failed Gemini batch.",
+                    len(batch),
+                )
+                results.extend(fallback_extractor.batch_analyze(batch))
             
             # Avoid rate limit between batches
             if i + batch_size < len(posts):
@@ -156,6 +298,14 @@ class GeminiExtractor:
 
         results.sort(key=lambda x: x.score, reverse=True)
         return results
+
+    @staticmethod
+    def _clamp_score(value, max_value: float) -> float:
+        try:
+            parsed = float(value)
+        except (TypeError, ValueError):
+            parsed = 0.0
+        return max(0.0, min(max_value, parsed))
 
     def generate_executive_summary(self, analyzed_posts: List[AnalyzedPost]) -> str:
         """Generate a 3-line executive summary based on all analyzed posts of the batch."""

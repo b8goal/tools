@@ -59,3 +59,12 @@ class AnalyzedPost:
     comment_summary: str = ""  # summary of top comments
 
     score: float = 0.0  # calculated relevance score
+    evidence_types: list = field(default_factory=list)  # structured evidence hints from LLM/rules
+
+    # Recommendation ranking results
+    recommendation_score: float = 0.0
+    specificity_score: float = 0.0
+    actionability_score: float = 0.0
+    noise_score: float = 0.0
+    recommendation_passed: bool = False
+    rejection_reasons: list = field(default_factory=list)

@@ -9,6 +9,7 @@ import re
 from collections import Counter
 from typing import List, Tuple
 
+from analyzers.text_summary import build_comment_summary, build_post_summary
 from models.post import AnalyzedPost, ScrapedPost, Sentiment, SignalStrength
 
 logger = logging.getLogger(__name__)
@@ -167,13 +168,13 @@ class SignalExtractor:
 
         analyzed = AnalyzedPost(
             post=post,
-            summary=text[:200],
+            summary=build_post_summary(post.title, post.content or ""),
             investment_insight=insight,
             tickers=tickers + etfs,
             keywords=keywords,
             sentiment=sentiment,
             signal_strength=signal_strength,
-            comment_summary="\n".join(top_comments),
+            comment_summary=build_comment_summary(top_comments),
             score=score,
         )
         return analyzed

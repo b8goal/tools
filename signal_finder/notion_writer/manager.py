@@ -29,6 +29,7 @@ SOURCE_COLORS = {
     "dcinside": "green",
     "ppomppu":  "orange",
     "clien":    "gray",
+    "merblog":  "brown",
 }
 
 SOURCE_EMOJI = {
@@ -37,6 +38,16 @@ SOURCE_EMOJI = {
     "dcinside": "🟢",
     "ppomppu":  "🟠",
     "clien":    "⚪",
+    "merblog":  "🟤",
+}
+
+SOURCE_NAMES = {
+    "fmkorea": "FM Korea 주식",
+    "koreapas": "고파스 경제",
+    "dcinside": "DC 미주갤",
+    "ppomppu": "뽐뿌 증권포럼",
+    "clien": "클리앙 주식한당",
+    "merblog": "네이버 메르 블로그",
 }
 
 
@@ -127,7 +138,7 @@ class NotionManager:
             src = post.post.source
             source_groups.setdefault(src, []).append(post)
 
-        source_order = ["fmkorea", "koreapas", "dcinside", "ppomppu", "clien"]
+        source_order = ["fmkorea", "koreapas", "dcinside", "ppomppu", "clien", "merblog"]
         for source in source_order:
             posts_for_source = source_groups.get(source, [])
             blocks.extend(
@@ -172,7 +183,7 @@ class NotionManager:
     ) -> list:
         """Build blocks for a single source's posts."""
         emoji = SOURCE_EMOJI.get(source, "⚫")
-        source_name = posts[0].post.source_name if posts else source
+        source_name = posts[0].post.source_name if posts else SOURCE_NAMES.get(source, source)
         count = len(posts)
         color = SOURCE_COLORS.get(source, "default")
 
@@ -221,6 +232,9 @@ class NotionManager:
             stats += f" | 👁 조회 {ap.post.views}"
         blocks.append(self._indent_paragraph(stats))
 
+        if ap.summary:
+            blocks.append(self._indent_paragraph(f"📝 {ap.summary}"))
+
         # Insight
         if ap.investment_insight:
             blocks.append(self._indent_paragraph(f"💡 {ap.investment_insight}"))
@@ -239,12 +253,14 @@ class NotionManager:
         blocks.append(
             self._indent_paragraph(
                 f"📊 시그널: {strength_emoji} {ap.signal_strength.value} "
-                f"(점수: {ap.score:.1f})"
+                f"(추천점수: {ap.recommendation_score:.1f} | 분석점수: {ap.score:.1f})"
             )
         )
 
         # Top comments
-        if ap.post.top_comments:
+        if ap.comment_summary:
+            blocks.append(self._indent_paragraph(f"💬 {ap.comment_summary}"))
+        elif ap.post.top_comments:
             comments_str = " | ".join(
                 f'"{c[:60]}"' for c in ap.post.top_comments[:3]
             )

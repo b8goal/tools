@@ -17,7 +17,15 @@ import os
 import schedule
 
 from config import Config
-from scrapers import FMKoreaScraper, KoreapasScraper, DcinsideScraper, PpomppuScraper
+from analyzers.recommendation_ranker import RecommendationRanker
+from scrapers import (
+    FMKoreaScraper,
+    KoreapasScraper,
+    DcinsideScraper,
+    PpomppuScraper,
+    ClienScraper,
+    MerBlogScraper,
+)
 from collections import Counter
 import requests
 from notion_writer import NotionManager
@@ -48,6 +56,8 @@ SCRAPER_CLASSES = {
     "koreapas": KoreapasScraper,
     "dcinside": DcinsideScraper,
     "ppomppu":  PpomppuScraper,
+    "clien":    ClienScraper,
+    "merblog":  MerBlogScraper,
 }
 
 SEEN_POSTS_FILE = "seen_posts.json"
@@ -187,35 +197,62 @@ def run_pipeline(config: Config, dry_run: bool = False) -> None:
         extractor = SignalExtractor()
 
     analyzed_posts = extractor.batch_analyze(new_posts)
-    
-    # Extract hot keywords from the analyzed LLM/Rule outputs
-    kw_counter = Counter()
-    for ap in analyzed_posts:
-        for kw in ap.keywords:
-            kw_counter[kw] += 1
-    hot_keywords = kw_counter.most_common(10)
-
-    logger.info(f"  📈 Hot keywords: {[kw for kw, _ in hot_keywords[:5]]}")
-    logger.info(f"  ✅ Analyzed {len(analyzed_posts)} posts")
 
     if not analyzed_posts:
         logger.info("  💤 No investment-related posts after analysis. Skipping summary and Notion upload.")
         return
 
+    ranker = RecommendationRanker()
+    recommended_posts, rejected_posts = ranker.select(analyzed_posts)
+    rejection_counts = ranker.collect_rejection_reason_counts(rejected_posts)
+
+    kw_counter = Counter()
+    for ap in recommended_posts:
+        for kw in ap.keywords:
+            kw_counter[kw] += 1
+    hot_keywords = kw_counter.most_common(10)
+
+    logger.info(f"  ✅ Analyzed {len(analyzed_posts)} posts")
+    logger.info(
+        "  🎯 Recommendation gate kept %s and rejected %s posts.",
+        len(recommended_posts),
+        len(rejected_posts),
+    )
+    if rejection_counts:
+        top_reasons = ", ".join(f"{reason}={count}" for reason, count in rejection_counts.most_common(5))
+        logger.info("  🚫 Top rejection reasons: %s", top_reasons)
+    if hot_keywords:
+        logger.info(f"  📈 Hot keywords: {[kw for kw, _ in hot_keywords[:5]]}")
+
     # ── 5. Save to Database ──
     db.insert_posts(analyzed_posts)
 
     executive_summary = ""
-    if analyzed_posts:
+    if recommended_posts:
         from analyzers.codex_summary import CodexSummaryGenerator
 
         logger.info("🧠 Generating executive summary with Codex...")
         summary_generator = CodexSummaryGenerator(model=config.codex_summary_model)
-        executive_summary = summary_generator.generate_executive_summary(analyzed_posts)
+        executive_summary = summary_generator.generate_executive_summary(recommended_posts)
         logger.info("  📝 Summary generated.")
 
     # ── 6. Print summary ──
-    _print_summary(analyzed_posts, hot_keywords, executive_summary)
+    _print_summary(
+        recommended_posts,
+        hot_keywords,
+        executive_summary,
+        total_analyzed=len(analyzed_posts),
+        rejected_posts=rejected_posts,
+    )
+
+    rejected_urls = {ap.post.url for ap in rejected_posts}
+
+    if not recommended_posts:
+        logger.info("  💤 No posts passed the recommendation gate. Skipping Notion upload.")
+        if not dry_run and rejected_urls:
+            seen_urls.update(rejected_urls)
+            save_seen_posts(seen_urls)
+        return
 
     # ── 7. Upload to Notion ──
     if dry_run:
@@ -228,6 +265,9 @@ def run_pipeline(config: Config, dry_run: bool = False) -> None:
             "Skipping Notion upload.\n"
             "   Set them in .env file to enable Notion integration."
         )
+        if rejected_urls:
+            seen_urls.update(rejected_urls)
+            save_seen_posts(seen_urls)
         return
 
     logger.info("📝 Uploading to Notion...")
@@ -236,18 +276,22 @@ def run_pipeline(config: Config, dry_run: bool = False) -> None:
         page_id = notion.upsert_daily_page(now)
         notion.append_collection_section(
             page_id=page_id,
-            analyzed_posts=analyzed_posts,
+            analyzed_posts=recommended_posts,
             hot_keywords=hot_keywords,
             collected_at=now,
             executive_summary=executive_summary,
         )
-        db.mark_posts_recommended(analyzed_posts, recommended_at=now)
-        for post in new_posts:
-            seen_urls.add(post.url)
+        db.mark_posts_recommended(recommended_posts, recommended_at=now)
+        seen_urls.update(rejected_urls)
+        for post in recommended_posts:
+            seen_urls.add(post.post.url)
         save_seen_posts(seen_urls)
         logger.info(f"  ✅ Notion page updated (id: {page_id})")
     except Exception as e:
         logger.error(f"  ❌ Notion upload failed: {e}", exc_info=True)
+        if rejected_urls:
+            seen_urls.update(rejected_urls)
+            save_seen_posts(seen_urls)
         send_alert(config, f"Notion 업로드 실패: {e}")
 
     logger.info(f"{'='*60}")
@@ -255,7 +299,13 @@ def run_pipeline(config: Config, dry_run: bool = False) -> None:
     logger.info(f"{'='*60}")
 
 
-def _print_summary(analyzed_posts, hot_keywords, executive_summary="") -> None:
+def _print_summary(
+    analyzed_posts,
+    hot_keywords,
+    executive_summary="",
+    total_analyzed: int | None = None,
+    rejected_posts=None,
+) -> None:
     """Print a concise console summary of the run."""
     print("\n" + "═" * 60)
     print("📊 Signal Finder - 수집 결과 요약")
@@ -270,13 +320,28 @@ def _print_summary(analyzed_posts, hot_keywords, executive_summary="") -> None:
         kws = "  ".join(f"#{kw}({cnt})" for kw, cnt in hot_keywords[:8])
         print(f"🔥 핫 키워드: {kws}")
 
-    print(f"\n📋 수집 게시글: {len(analyzed_posts)}건")
+    rejected_posts = rejected_posts or []
+    total_analyzed = total_analyzed if total_analyzed is not None else len(analyzed_posts)
+    print(f"\n📋 분석 게시글: {total_analyzed}건")
+    print(f"✅ 추천 통과: {len(analyzed_posts)}건")
+    print(f"🚫 추천 탈락: {len(rejected_posts)}건")
+    if rejected_posts:
+        reasons = Counter()
+        for post in rejected_posts:
+            reasons.update(post.rejection_reasons)
+        if reasons:
+            top_reasons = "  ".join(f"{reason}({count})" for reason, count in reasons.most_common(5))
+            print(f"📉 주요 탈락 사유: {top_reasons}")
     print()
 
     # Top 5 posts by score
     for i, ap in enumerate(analyzed_posts[:5], 1):
         print(f"  {i}. [{ap.post.source_name}] {ap.post.title[:45]}")
-        print(f"     ⬆️ {ap.post.upvotes}  💬 {ap.post.comment_count}  📊 점수: {ap.score:.1f}")
+        print(
+            "     "
+            f"⬆️ {ap.post.upvotes}  💬 {ap.post.comment_count}  "
+            f"🎯 추천점수: {ap.recommendation_score:.1f}  📊 분석점수: {ap.score:.1f}"
+        )
         if ap.keywords:
             print(f"     🏷️ {', '.join(ap.keywords[:5])}")
         print()

@@ -94,9 +94,18 @@ class Config:
             ),
             "clien": ScraperConfig(
                 name="클리앙 주식한당",
-                url="https://www.clien.net/service/board/somoim",
-                min_upvotes=3,
-                enabled=False,  # v2 - requires login
+                url="https://www.clien.net/service/board/cm_stock",
+                min_upvotes=1,
+                min_comments=3,
+                enabled=True,
+            ),
+            "merblog": ScraperConfig(
+                name="네이버 메르 블로그",
+                url="https://rss.blog.naver.com/ranto28.xml",
+                min_upvotes=int(os.getenv("MIN_UPVOTES_MERBLOG", "0")),
+                min_comments=0,
+                max_posts=int(os.getenv("MAX_POSTS_MERBLOG", "10")),
+                enabled=os.getenv("ENABLE_MERBLOG", "true").lower() != "false",
             ),
         }
 
