@@ -42,6 +42,9 @@ except ImportError:  # pragma: no cover - direct script fallback
 
 
 DIRECTION_LABELS = ["None", "LEFT", "RIGHT", "UP", "DOWN"]
+CONFIG_VERSION = 1
+DEFAULT_START_DELAY_SECONDS = 3.0
+DEFAULT_TARGET_APP = "MapleStory Worlds"
 
 QT_KEY_NAMES = {
     int(Qt.Key.Key_Left): "left",
@@ -360,17 +363,17 @@ class MainWindow(QMainWindow):
         new_action.triggered.connect(self.new_sequence)
         file_menu.addAction(new_action)
 
-        open_action = QAction("Open JSON", self)
+        open_action = QAction("Open Config JSON", self)
         open_action.setShortcut(QKeySequence.StandardKey.Open)
         open_action.triggered.connect(self.load_sequence)
         file_menu.addAction(open_action)
 
-        save_action = QAction("Save JSON", self)
+        save_action = QAction("Save Config JSON", self)
         save_action.setShortcut(QKeySequence.StandardKey.Save)
         save_action.triggered.connect(self.save_sequence)
         file_menu.addAction(save_action)
 
-        save_as_action = QAction("Save JSON As", self)
+        save_as_action = QAction("Save Config JSON As", self)
         save_as_action.triggered.connect(self.save_sequence_as)
         file_menu.addAction(save_as_action)
 
@@ -402,13 +405,13 @@ class MainWindow(QMainWindow):
         self.start_delay_spin.setDecimals(1)
         self.start_delay_spin.setSingleStep(0.5)
         self.start_delay_spin.setSuffix(" sec")
-        self.start_delay_spin.setValue(3.0)
+        self.start_delay_spin.setValue(DEFAULT_START_DELAY_SECONDS)
         top_bar.addWidget(self.start_delay_spin)
 
         top_bar.addWidget(QLabel("Target"))
         self.target_app_edit = QLineEdit()
-        self.target_app_edit.setPlaceholderText("MapleStory Worlds")
-        self.target_app_edit.setText("MapleStory Worlds")
+        self.target_app_edit.setPlaceholderText(DEFAULT_TARGET_APP)
+        self.target_app_edit.setText(DEFAULT_TARGET_APP)
         top_bar.addWidget(self.target_app_edit, 1)
 
         self.start_button = QPushButton("Start")
@@ -505,6 +508,14 @@ class MainWindow(QMainWindow):
         self.test_input_button = QPushButton("Test Input")
         self.test_input_button.clicked.connect(self.test_input)
         button_grid.addWidget(self.test_input_button, 3, 1, 1, 2)
+
+        self.load_config_button = QPushButton("Load Config")
+        self.load_config_button.clicked.connect(self.load_sequence)
+        button_grid.addWidget(self.load_config_button, 4, 0)
+
+        self.save_config_button = QPushButton("Save Config")
+        self.save_config_button.clicked.connect(self.save_sequence)
+        button_grid.addWidget(self.save_config_button, 4, 1, 1, 2)
 
         layout.addLayout(button_grid)
         return panel
@@ -604,6 +615,10 @@ class MainWindow(QMainWindow):
         self.loop_check.setChecked(self.sequence.loop)
         self.loop_count_spin.setEnabled(self.sequence.loop)
         self.loop_count_spin.setValue(self.sequence.loop_count or 0)
+
+    def _sync_execution_controls(self, start_delay_seconds: float, target_app: str) -> None:
+        self.start_delay_spin.setValue(max(float(start_delay_seconds), 0.0))
+        self.target_app_edit.setText(str(target_app or DEFAULT_TARGET_APP))
 
     def _sequence_controls_changed(self) -> None:
         self.sequence.name = self.name_edit.text().strip() or "Untitled Macro"
@@ -785,6 +800,7 @@ class MainWindow(QMainWindow):
             return
         self.sequence = self._default_sequence()
         self._current_path = None
+        self._sync_execution_controls(DEFAULT_START_DELAY_SECONDS, DEFAULT_TARGET_APP)
         self._sync_sequence_controls()
         self._refresh_table(select_row=0)
         self._append_log("[NEW] Reset to default sequence.")
@@ -792,16 +808,19 @@ class MainWindow(QMainWindow):
     def load_sequence(self) -> None:
         if self._thread is not None or self._recorder is not None:
             return
-        file_name, _ = QFileDialog.getOpenFileName(self, "Open Macro JSON", "", "Macro JSON (*.json)")
+        file_name, _ = QFileDialog.getOpenFileName(
+            self,
+            "Open Macro Config",
+            "",
+            "Macro Config (*.json);;All Files (*)",
+        )
         if not file_name:
             return
 
         try:
             path = Path(file_name)
-            self.sequence = MacroSequence.from_dict(json.loads(path.read_text(encoding="utf-8")))
+            self._apply_config(json.loads(path.read_text(encoding="utf-8")))
             self._current_path = path
-            self._sync_sequence_controls()
-            self._refresh_table(select_row=0)
             self._append_log(f"[LOAD] {path}")
         except Exception as exc:  # noqa: BLE001
             QMessageBox.critical(self, "Load failed", str(exc))
@@ -813,7 +832,12 @@ class MainWindow(QMainWindow):
         self._write_sequence(self._current_path)
 
     def save_sequence_as(self) -> None:
-        file_name, _ = QFileDialog.getSaveFileName(self, "Save Macro JSON", "", "Macro JSON (*.json)")
+        file_name, _ = QFileDialog.getSaveFileName(
+            self,
+            "Save Macro Config",
+            "",
+            "Macro Config (*.json);;All Files (*)",
+        )
         if not file_name:
             return
         path = Path(file_name)
@@ -823,9 +847,37 @@ class MainWindow(QMainWindow):
         self._write_sequence(path)
 
     def _write_sequence(self, path: Path) -> None:
-        self._sequence_controls_changed()
-        path.write_text(json.dumps(self.sequence.to_dict(), indent=2, ensure_ascii=False), encoding="utf-8")
+        path.write_text(json.dumps(self._config_to_dict(), indent=2, ensure_ascii=False), encoding="utf-8")
         self._append_log(f"[SAVE] {path}")
+
+    def _config_to_dict(self) -> dict:
+        self.apply_selected_step()
+        self._sequence_controls_changed()
+        return {
+            "version": CONFIG_VERSION,
+            "sequence": self.sequence.to_dict(),
+            "start_delay_seconds": self.start_delay_spin.value(),
+            "target_app": self.target_app_edit.text().strip(),
+        }
+
+    def _apply_config(self, data: dict) -> None:
+        if not isinstance(data, dict):
+            raise ValueError("Config must be a JSON object.")
+
+        if "sequence" in data:
+            sequence_data = data["sequence"]
+            start_delay_seconds = data.get("start_delay_seconds", DEFAULT_START_DELAY_SECONDS)
+            target_app = data.get("target_app", DEFAULT_TARGET_APP)
+        else:
+            # Backward compatibility: older files contained only MacroSequence data.
+            sequence_data = data
+            start_delay_seconds = data.get("start_delay_seconds", DEFAULT_START_DELAY_SECONDS)
+            target_app = data.get("target_app", DEFAULT_TARGET_APP)
+
+        self.sequence = MacroSequence.from_dict(sequence_data)
+        self._sync_execution_controls(float(start_delay_seconds), str(target_app or DEFAULT_TARGET_APP))
+        self._sync_sequence_controls()
+        self._refresh_table(select_row=0)
 
     def start_macro(self) -> None:
         if self._thread is not None or self._recorder is not None:
@@ -960,6 +1012,8 @@ class MainWindow(QMainWindow):
             self.target_app_edit,
             self.permission_button,
             self.test_input_button,
+            self.load_config_button,
+            self.save_config_button,
             self.start_button,
             self.add_button,
             self.duplicate_button,
@@ -994,6 +1048,8 @@ class MainWindow(QMainWindow):
             self.target_app_edit,
             self.permission_button,
             self.test_input_button,
+            self.load_config_button,
+            self.save_config_button,
             self.add_button,
             self.duplicate_button,
             self.delete_button,
