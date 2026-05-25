@@ -144,6 +144,7 @@ class KeyRecorder(QObject):
         self._run_loop_source = None
         self._run_loop = None
         self._event_thread: threading.Thread | None = None
+        self._pynput_listener = None
 
     def start(self) -> None:
         if self._active:
@@ -157,6 +158,14 @@ class KeyRecorder(QObject):
         if sys.platform == "darwin":
             try:
                 self._start_macos_global_recording()
+                self._global_recording = True
+                self.log.emit("[RECORD] Recording global keyboard input. Press Esc or Stop Recording to finish.")
+                return
+            except Exception as exc:  # noqa: BLE001
+                self.log.emit(f"[RECORD] Global recording unavailable: {exc}")
+        elif sys.platform == "win32":
+            try:
+                self._start_pynput_global_recording()
                 self._global_recording = True
                 self.log.emit("[RECORD] Recording global keyboard input. Press Esc or Stop Recording to finish.")
                 return
@@ -198,6 +207,7 @@ class KeyRecorder(QObject):
             return
         self._active = False
         self._stop_macos_global_recording()
+        self._stop_pynput_global_recording()
         self._pressed_at.clear()
         total_ms = int((time.monotonic() - self._started_at) * 1000) if self._started_at else 0
         self.log.emit(f"[RECORD] Recording stopped. events={self._event_count}, duration={total_ms}ms")
@@ -305,6 +315,72 @@ class KeyRecorder(QObject):
                 self._record_key_up(key_name, timestamp)
 
         return event
+
+    def _start_pynput_global_recording(self) -> None:
+        from pynput import keyboard
+
+        self._pynput_listener = keyboard.Listener(
+            on_press=self._pynput_key_down,
+            on_release=self._pynput_key_up,
+        )
+        self._pynput_listener.start()
+
+    def _stop_pynput_global_recording(self) -> None:
+        if self._pynput_listener is None:
+            return
+
+        try:
+            self._pynput_listener.stop()
+            try:
+                self._pynput_listener.join(timeout=0.5)
+            except RuntimeError:
+                pass
+        finally:
+            self._pynput_listener = None
+            if sys.platform == "win32":
+                self._global_recording = False
+
+    def _pynput_key_down(self, key) -> None:
+        if not self._active:
+            return
+
+        key_name = self._pynput_key_name(key)
+        if key_name:
+            self._record_key_down(key_name, time.monotonic())
+
+    def _pynput_key_up(self, key) -> bool | None:
+        if not self._active:
+            return False
+
+        key_name = self._pynput_key_name(key)
+        if key_name == "esc":
+            self._finish()
+            return False
+
+        if key_name:
+            self._record_key_up(key_name, time.monotonic())
+        return None
+
+    def _pynput_key_name(self, key) -> str | None:
+        char = getattr(key, "char", None)
+        if char and len(char) == 1 and not char.isspace():
+            return char.lower()
+
+        name = getattr(key, "name", None)
+        if not name:
+            return None
+
+        aliases = {
+            "alt_l": "alt",
+            "alt_r": "alt",
+            "ctrl_l": "ctrl",
+            "ctrl_r": "ctrl",
+            "shift_l": "shift",
+            "shift_r": "shift",
+            "cmd_l": "cmd",
+            "cmd_r": "cmd",
+        }
+        return aliases.get(name, name)
 
     def _key_name(self, event) -> str | None:
         key = event.key()
@@ -907,7 +983,7 @@ class MainWindow(QMainWindow):
         self._start_sequence(sequence, self.start_delay_spin.value())
 
     def _activate_target_app(self) -> None:
-        if sys.platform != "darwin":
+        if sys.platform not in {"darwin", "win32"}:
             return
 
         target_name = self.target_app_edit.text().strip()
@@ -915,7 +991,10 @@ class MainWindow(QMainWindow):
             return
 
         try:
-            app_name = self._activate_macos_app(target_name)
+            if sys.platform == "darwin":
+                app_name = self._activate_macos_app(target_name)
+            else:
+                app_name = self._activate_windows_window(target_name)
             if app_name:
                 self._append_log(f"[TARGET] Activated {app_name}.")
             else:
@@ -946,6 +1025,40 @@ class MainWindow(QMainWindow):
                 return localized_name or bundle_id
 
         return None
+
+    def _activate_windows_window(self, target_name: str) -> str | None:
+        import ctypes
+
+        user32 = ctypes.windll.user32
+        normalized_target = target_name.casefold()
+        matches: list[tuple[int, str]] = []
+
+        enum_windows_proc = ctypes.WINFUNCTYPE(ctypes.c_bool, ctypes.c_void_p, ctypes.c_void_p)
+
+        def callback(hwnd, _lparam):
+            if not user32.IsWindowVisible(hwnd):
+                return True
+
+            length = user32.GetWindowTextLengthW(hwnd)
+            if length <= 0:
+                return True
+
+            buffer = ctypes.create_unicode_buffer(length + 1)
+            user32.GetWindowTextW(hwnd, buffer, length + 1)
+            title = buffer.value.strip()
+            if title and normalized_target in title.casefold():
+                matches.append((hwnd, title))
+                return False
+            return True
+
+        user32.EnumWindows(enum_windows_proc(callback), 0)
+        if not matches:
+            return None
+
+        hwnd, title = matches[0]
+        user32.ShowWindow(hwnd, 9)
+        user32.SetForegroundWindow(hwnd)
+        return title
 
     def _start_sequence(self, sequence: MacroSequence, start_delay_seconds: float) -> None:
         self._thread = QThread(self)
@@ -1087,6 +1200,10 @@ class MainWindow(QMainWindow):
             self._open_accessibility_settings()
 
     def _log_accessibility_status(self, prompt: bool) -> None:
+        if sys.platform != "darwin":
+            self._append_log("[PERMISSION] No macOS Accessibility permission is required on this OS.")
+            return
+
         trusted = macos_accessibility_trusted(prompt=prompt)
         if trusted is True:
             self._append_log("[PERMISSION] macOS Accessibility permission is granted.")
